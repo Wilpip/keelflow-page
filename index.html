@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'">
+  <meta name="robots" content="noindex">
+  <title>Keelflow</title>
+  <style>
+    :root { --background: #F7F5F0; --text: #2B2B2B; --secondary: #6B6862; --title: #1B2A4A; --separator: #E2DED6; }
+    @media (prefers-color-scheme: dark) {
+      :root { --background: #2B2B2B; --text: #D9D9D6; --secondary: #A6A5A0; --title: #FFF3EA; --separator: #444442; }
+    }
+    body { margin: 0; background: var(--background); color: var(--text);
+           font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
+    main { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
+    h1 { color: var(--title); font-size: 32px; margin: 0 0 8px; letter-spacing: 0.02em; }
+    h2 { color: var(--title); font-size: 20px; margin: 40px 0 8px; padding-top: 24px; border-top: 1px solid var(--separator); }
+    p, li { margin: 0 0 12px; }
+    .lead { color: var(--secondary); }
+    #retour { padding: 16px; border: 1px solid var(--separator); border-radius: 12px; margin-bottom: 32px; }
+    #retour a { color: var(--title); font-weight: 600; }
+  </style>
+</head>
+<body>
+<main>
+  <div id="retour" hidden>
+    <p>Retour vers Keelflow…</p>
+    <p>Si rien ne se passe, <a id="lien" href="#">ouvrir Keelflow</a>.</p>
+  </div>
+
+  <h1>Keelflow</h1>
+  <p class="lead">Application personnelle de budget pour iPhone. Elle n'est pas distribuée : une seule personne, son auteur, l'utilise.</p>
+
+  <h2 id="confidentialite">Confidentialité</h2>
+  <ul>
+    <li>Les comptes, paiements et objectifs restent sur l'iPhone, protégés par le chiffrement d'iOS. Keelflow n'a pas de serveur : rien ne lui est envoyé.</li>
+    <li>Quand la connexion bancaire est activée, l'iPhone lit les soldes et les opérations auprès de la banque par l'intermédiaire d'Enable Banking, en lecture seule, avec le consentement donné à la banque et pour 180 jours au plus. Ce consentement peut être retiré à tout moment, dans Keelflow ou auprès de la banque.</li>
+    <li>Cette page ne dépose aucun cookie, ne charge rien d'extérieur et ne mesure pas les visites. Elle est hébergée par GitHub Pages.</li>
+  </ul>
+
+  <h2 id="conditions">Conditions d'utilisation</h2>
+  <p>Usage strictement personnel et non commercial. Aucun service n'est proposé à d'autres personnes.</p>
+</main>
+<script>
+  // After the bank, send the answer (code and state, or error) back to the app, then drop it from the address bar.
+  (function () {
+    var query = window.location.search;
+    if (!/[?&](code|error)=/.test(query)) return;
+    var target = "keelflow://banque" + query;
+    history.replaceState(null, "", window.location.pathname);
+    document.getElementById("lien").href = target;
+    document.getElementById("retour").hidden = false;
+    window.location.replace(target);
+  })();
+</script>
+</body>
+</html>
